@@ -11,3 +11,53 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+title {
+  color: #c5f2f8
+}
+
+
+nav {
+  
+  padding: 2rem 0;
+  background: #4496da;
+}
+
+nav section {
+  width: 100%;
+}
+
+nav a {
+  font-weight: 700;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  background:#e91e63;
+  margin-right: 1rem;
+}
+
+nav a:hover {
+  background: #222;
+}
+
+section {
+  max-width: 1000px;
+  padding: 0 1.5rem;
+  color: rgb(255, 255, 255)
+  
+}
+
+.list-wrapper {
+  color: white;
+  font-weight: 500;
+  background: #173ca3;
+  border: 1px solid #d0cccc;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+  transition: all .8s;
+  padding: 10px 10px;
+  width: 100%;
+}
+
+.user-list {
+  margin-left: 20px;
+}

@@ -37,3 +37,30 @@
     transform: translateY(0px)
   }
 }
+ 
+.link-create {
+  background-color: #6cb2ec;
+  color: rgb(5, 0, 0);
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  
+}
+.link-view {
+  background-color: #47be2f;
+  color: rgb(5, 0, 0);
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  
+}
+
+.navigation {
+ margin-top: 20px;
+ display: flex;
+ flex-direction: row;
+ margin-left: 37rem;
+ 
+}
