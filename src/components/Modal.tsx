@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
+import '../modal.css';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { addUser } from '../actions/actionCreator';

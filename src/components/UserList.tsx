@@ -9,13 +9,16 @@ import Button from "@material-ui/core/Button";
 
 const UserList = (state: UserState) => {
     let users = state.users;
+
+    // scroll bottom
     const scrollBottom = () => {
         window.scroll({
             top: document.body.scrollHeight,
             left: 0,
         });
     }
-
+    
+    // scroll top
     const scrollTop = () => {
         window.scroll({
             top: 0,
@@ -43,6 +46,8 @@ const UserList = (state: UserState) => {
         </div>
     )
 };
+
+// map state to props for recieving the state
 const mapStateToProps = (state: UserState) => {
     return {
         users: state.users
