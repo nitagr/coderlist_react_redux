@@ -64,7 +64,7 @@ const AddForm = () => {
     const [mobile, setMobile] = useState(' ');
     const [gender, setGender] = useState('female');
     const [countryCode, setCountryCode] = useState(' ');
-    const [profileImage, setProfileImage] = useState('/no-image.png');
+    const [profileImage, setProfileImage] = useState('');
 
     // state for preview-modal
     const [preview, setPreview] = useState(false);
@@ -130,12 +130,13 @@ const AddForm = () => {
         setCheck4(false);
         setCheck5(false);
         setCheck6(false);
+        setProfileImage('');
     }
 
     // profile image upload handler
     const uploadedImage = React.useRef(null);
     const imageUploader = React.useRef(null);
-   
+
     const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files[0];
         setProfileImage(file.name);
@@ -278,11 +279,11 @@ const AddForm = () => {
                         >
                             <input
                                 accept="image/*"
-                                className={classes.input}                        
+                                className={classes.input}
                                 id="icon-button-file"
                                 type="file"
                                 ref={imageUploader}
-                                onChange={handleImageUpload}                         
+                                onChange={handleImageUpload}
                             />
 
                             <label htmlFor="icon-button-file">
@@ -291,25 +292,27 @@ const AddForm = () => {
                                     aria-label="upload picture"
                                     component="span"
                                 >
-                                <PhotoCamera />
+                                    <PhotoCamera />
                                 </IconButton>
                             </label>
                         </div>
                     </Grid>
 
                     <Grid item xs={12} sm={7}>
-                        <img  
-                            ref={uploadedImage}                                                 
-                            hidden
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                position: "absolute",
-                            }}
-                            alt=''
-                            id='profileImg'
-                        />
+                        <p> {profileImage} </p> 
                     </Grid>
+
+                    <img
+                        ref={uploadedImage}
+                        hidden
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            position: "absolute",
+                        }}
+                        alt=''
+                        id='profileImg'
+                    />
 
                     <Grid item xs={12} sm={6} >
                         <div>
@@ -332,7 +335,7 @@ const AddForm = () => {
                                 check5={check5}
                                 check6={check6}
 
-                            />                        
+                            />
                         </div>
                     </Grid>
 
