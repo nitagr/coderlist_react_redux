@@ -34,6 +34,7 @@ const Modal = (props: any) => {
         tech += 'MongoDB ';
         tech += '| '
     }
+    
     const newUser: User = {
         id: Math.random(),
         name: props.name,
@@ -43,13 +44,36 @@ const Modal = (props: any) => {
         gender: props.gender,
         profile: props.profile,
         tech: tech,
+    }
+
+    // converting image into base64 and storing it in localstorage service
+    function getBase64Image(img: any) {
+        let canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        let ctx = canvas.getContext("2d");
+        if (ctx)
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+
+        let dataURL = canvas.toDataURL("image/png");
+        return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 
     }
+    // profile storage handler
+    const handleProfileStorage = () => {
+
+        let profileImage = document.getElementById('profileImg');
+        let imgData = getBase64Image(profileImage);
+        localStorage.setItem(props.profile, imgData);
+    }
+
     const dispatch = useDispatch();
     
     // for submitting user Info and scrolling to modal view
     const handleSubmit = () => {
         dispatch(addUser(newUser));
+        handleProfileStorage();
         window.scroll({
             top: 0, 
             left: 0, 

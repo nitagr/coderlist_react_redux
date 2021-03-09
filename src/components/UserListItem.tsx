@@ -3,6 +3,8 @@ import { User } from '../API';
 import Grid from "@material-ui/core/Grid";
 
 const UserListItem = (props: any) => {
+    let dataImage = localStorage.getItem(props.user.profile);
+    let srcValue = "data:image/png;base64," + dataImage;
     return (
         <div>
             <Grid container spacing={3}>
@@ -18,7 +20,7 @@ const UserListItem = (props: any) => {
 
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                    <img style={{ width: '200px', height: '213px', marginTop: '70px' }} alt="" id='profile' />
+                    <img style={{ width: '200px', height: '213px', marginTop: '70px' }} alt="" id='profile' src = {srcValue} />
                 </Grid>
             </Grid>
         </div>
