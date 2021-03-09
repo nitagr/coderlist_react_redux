@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
+import Modal from './Modal';
 
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -99,6 +100,37 @@ const AddForm = () => {
         }
         return false;
     };
+
+    // opening modal handler with preview state
+    const openModalHandler = () => {
+        if (validationCheck()) {
+            setPreview(!preview);
+            window.scroll({
+                top: document.body.scrollHeight,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // closing modal handler with preview state
+    const closeModalHandler = () => {
+        setPreview(!preview);
+    }
+    // reset the form
+    const handleReset = () => {
+        setName('');
+        setEmail('');
+        setCountryCode('');
+        setMobile('');
+        setCheck1(false);
+        setCheck2(false);
+        setCheck3(false);
+        setCheck4(false);
+        setCheck5(false);
+        setCheck6(false);
+
+    }
 
     return (
         <div className={classes.root}>
@@ -261,12 +293,31 @@ const AddForm = () => {
 
                     <Grid item xs={12} sm={6} >
                         <div>
-                            <Button variant="contained" fullWidth color="primary" >Preview</Button>                           
+                            <Button variant="contained" fullWidth color="primary" onClick={openModalHandler}>Preview</Button>
+                            
+                            <Modal
+                                className="modal"
+                                show={preview}
+                                name={name}
+                                email={email}
+                                countryCode={countryCode}
+                                mobile={mobile}
+                                gender={gender}
+                                profile={profileImage}
+                                close={closeModalHandler}
+                                check1={check1}
+                                check2={check2}
+                                check3={check3}
+                                check4={check4}
+                                check5={check5}
+                                check6={check6}
+
+                            />                        
                         </div>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <Button variant="contained" fullWidth color="primary" >Reset</Button>
+                        <Button variant="contained" fullWidth color="primary" onClick={handleReset}>Reset</Button>
                     </Grid>
 
                 </Grid>
