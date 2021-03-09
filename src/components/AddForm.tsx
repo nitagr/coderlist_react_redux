@@ -117,6 +117,7 @@ const AddForm = () => {
     const closeModalHandler = () => {
         setPreview(!preview);
     }
+    
     // reset the form
     const handleReset = () => {
         setName('');
@@ -129,7 +130,6 @@ const AddForm = () => {
         setCheck4(false);
         setCheck5(false);
         setCheck6(false);
-
     }
 
     return (
@@ -294,7 +294,7 @@ const AddForm = () => {
                     <Grid item xs={12} sm={6} >
                         <div>
                             <Button variant="contained" fullWidth color="primary" onClick={openModalHandler}>Preview</Button>
-                            
+
                             <Modal
                                 className="modal"
                                 show={preview}
