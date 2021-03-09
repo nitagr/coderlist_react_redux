@@ -117,7 +117,7 @@ const AddForm = () => {
     const closeModalHandler = () => {
         setPreview(!preview);
     }
-    
+
     // reset the form
     const handleReset = () => {
         setName('');
@@ -132,6 +132,23 @@ const AddForm = () => {
         setCheck6(false);
     }
 
+    // profile image upload handler
+    const uploadedImage = React.useRef(null);
+    const imageUploader = React.useRef(null);
+   
+    const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files[0];
+        setProfileImage(file.name);
+        if (file) {
+            const reader = new FileReader();
+            const { current } = uploadedImage;
+            current.file = file;
+            reader.onload = e => {
+                current.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     return (
         <div className={classes.root}>
             <div className={classes.subdiv}>
@@ -263,7 +280,9 @@ const AddForm = () => {
                                 accept="image/*"
                                 className={classes.input}                        
                                 id="icon-button-file"
-                                type="file"                               
+                                type="file"
+                                ref={imageUploader}
+                                onChange={handleImageUpload}                         
                             />
 
                             <label htmlFor="icon-button-file">
@@ -279,7 +298,8 @@ const AddForm = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={7}>
-                        <img                            
+                        <img  
+                            ref={uploadedImage}                                                 
                             hidden
                             style={{
                                 width: "100%",
