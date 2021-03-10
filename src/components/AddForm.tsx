@@ -83,18 +83,28 @@ const AddForm = () => {
         let emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         let mobileFormat = /^\d{10}$/;
 
-        if (name === '') {
+        if ( name === '' ) {
             alert('Name: Name required');
-        } else if (!nameFormat.test(name)) {
-            alert('Name: Only letters and whitespaces are allowed');
-        } else if (!emailFormat.test(email)) {
+        } else if ( name.length<2 ) {
+            alert('Name: name should have minimum 2 characters');
+        } else if ( name.length>30 ) {
+            alert('Name: name should have max of 30 characters');
+        } else if ( !nameFormat.test(name) ) {
+            alert('Name: Only letters and whitespaces are allowed, may have leading whitespaces');
+        } else if ( email === '' ) {
+            alert('Email: Email is required');
+        } else if ( !emailFormat.test(email) ) {
             alert('Email: Invalid email');
-        } else if (countryCode !== '+91') {
+        } else if ( countryCode === ' ' ) {
+            alert('Code: Country code is required');
+        } else if ( countryCode !== '+91' ) {
             alert('Code: Invalid country Code, maybe due to leading whitespaces');
-        } else if (!mobileFormat.test(mobile)) {
-            alert('Mobile: Not a Valid Number, maybe due to leading whitespaces');
-        } else if (mobile === '') {
+        } else if ( mobile === ' ' ) {
             alert('Mobile: Mobile number is required');
+        } else if ( !mobileFormat.test(mobile) ) {
+            alert('Mobile: Not a Valid Number, maybe due to leading whitespaces');
+        } else if ( profileImage === '' ) {
+            alert('Profile: Upload profile picture');
         } else {
             return true;
         }
