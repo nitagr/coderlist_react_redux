@@ -16,6 +16,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import validationCheck from '../validations/formValidation';
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -77,43 +79,13 @@ const AddForm = () => {
     const [check5, setCheck5] = useState(false);
     const [check6, setCheck6] = useState(false);
 
-    // form field validation check for entries
-    const validationCheck = () => {
-        let nameFormat = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
-        let emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        let mobileFormat = /^\d{10}$/;
-
-        if ( name === '' ) {
-            alert('Name: Name required');
-        } else if ( name.length<2 ) {
-            alert('Name: name should have minimum 2 characters');
-        } else if ( name.length>30 ) {
-            alert('Name: name should have max of 30 characters');
-        } else if ( !nameFormat.test(name) ) {
-            alert('Name: Only letters and whitespaces are allowed, may have leading whitespaces');
-        } else if ( email === '' ) {
-            alert('Email: Email is required');
-        } else if ( !emailFormat.test(email) ) {
-            alert('Email: Invalid email');
-        } else if ( countryCode === ' ' ) {
-            alert('Code: Country code is required');
-        } else if ( countryCode !== '+91' ) {
-            alert('Code: Invalid country Code, maybe due to leading whitespaces');
-        } else if ( mobile === ' ' ) {
-            alert('Mobile: Mobile number is required');
-        } else if ( !mobileFormat.test(mobile) ) {
-            alert('Mobile: Not a Valid Number, maybe due to leading whitespaces');
-        } else if ( profileImage === '' ) {
-            alert('Profile: Upload profile picture');
-        } else {
-            return true;
-        }
-        return false;
-    };
-
     // opening modal handler with preview state
     const openModalHandler = () => {
-        if (validationCheck()) {
+        
+        // form fields validation
+        let validationResult = validationCheck( name, email, countryCode, mobile, profileImage );
+
+        if (validationResult) {
             setPreview(!preview);
             window.scroll({
                 top: document.body.scrollHeight,
