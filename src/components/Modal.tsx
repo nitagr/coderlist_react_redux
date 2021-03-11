@@ -5,7 +5,9 @@ import Button from "@material-ui/core/Button";
 import { addUser } from '../actions/actionCreator';
 import { User, UserState } from '../API';
 import { connect, useDispatch } from 'react-redux';
+
 import getTechSkills from '../helpers/getTechSkills';
+import handleProfileStorage from '../helpers/imageUploadHandler';
 
 const Modal = (props: any) => {
 
@@ -32,33 +34,12 @@ const Modal = (props: any) => {
         tech: techSkills,
     }
 
-    // converting image into base64 and storing it in localstorage service
-    function getBase64Image(img: any) {
-        let canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-
-        let ctx = canvas.getContext("2d");
-        if (ctx)
-            ctx.drawImage(img, 0, 0, img.width, img.height);
-
-        let dataURL = canvas.toDataURL("image/png");
-        return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-
-    }
-    // profile storage handler
-    const handleProfileStorage = () => {
-        let profileImage = document.getElementById('profileImg');
-        let imgData = getBase64Image(profileImage);
-        localStorage.setItem(props.profile, imgData);
-    }
-
+    // for submitting user Info and scrolling to modal view
     const dispatch = useDispatch();
     
-    // for submitting user Info and scrolling to modal view
     const handleSubmit = () => {
         dispatch(addUser(newUser));
-        handleProfileStorage();
+        handleProfileStorage(props.profile);
         window.scroll({
             top: 0, 
             left: 0, 
