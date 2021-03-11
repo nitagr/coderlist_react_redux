@@ -5,35 +5,21 @@ import Button from "@material-ui/core/Button";
 import { addUser } from '../actions/actionCreator';
 import { User, UserState } from '../API';
 import { connect, useDispatch } from 'react-redux';
+import getTechSkills from '../helpers/getTechSkills';
 
 const Modal = (props: any) => {
 
     // technology stack string for display selected using checkbox
-    let tech = '| ';
-    if (props.check1) {
-        tech += 'C++ ';
-        tech += '| '
-    }
-    if (props.check2) {
-        tech += 'Python ';
-        tech += '| '
-    }
-    if (props.check3) {
-        tech += 'javascript ';
-        tech += '| '
-    }
-    if (props.check4) {
-        tech += 'NodeJs ';
-        tech += '| '
-    }
-    if (props.check5) {
-        tech += 'React ';
-        tech += '| '
-    }
-    if (props.check6) {
-        tech += 'MongoDB ';
-        tech += '| '
-    }
+    const skillsSelected = [ 
+        props.check1,
+        props.check2,
+        props.check3,
+        props.check4,
+        props.check5,
+        props.check6,
+    ];
+
+    let techSkills = getTechSkills(skillsSelected);
     
     const newUser: User = {
         id: Math.random(),
@@ -43,7 +29,7 @@ const Modal = (props: any) => {
         mobile: props.mobile,
         gender: props.gender,
         profile: props.profile,
-        tech: tech,
+        tech: techSkills,
     }
 
     // converting image into base64 and storing it in localstorage service
@@ -62,7 +48,6 @@ const Modal = (props: any) => {
     }
     // profile storage handler
     const handleProfileStorage = () => {
-
         let profileImage = document.getElementById('profileImg');
         let imgData = getBase64Image(profileImage);
         localStorage.setItem(props.profile, imgData);
@@ -98,7 +83,7 @@ const Modal = (props: any) => {
                     <p>Mobile: {props.mobile}</p>
                     <p>Gender: {props.gender}</p>
                     <p>Profile Image: {props.profile}</p>
-                    <p>Technologies: {tech}</p>
+                    <p>Technologies: {techSkills}</p>
                 </div>
 
                 <Grid container spacing={1}>
