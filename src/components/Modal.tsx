@@ -8,6 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 
 import getTechSkills from '../helpers/getTechSkills';
 import handleProfileStorage from '../helpers/imageUploadHandler';
+import swal from 'sweetalert';
 
 const Modal = (props: any) => {
 
@@ -40,11 +41,18 @@ const Modal = (props: any) => {
     const handleSubmit = () => {
         dispatch(addUser(newUser));
         handleProfileStorage(props.profile);
+
         window.scroll({
             top: 0, 
             left: 0, 
             behavior: 'smooth' 
         });
+
+        swal({
+            title: "New User Added Successfully",
+            icon: "success",
+            dangerMode: true,
+        })
     }
 
     return (
