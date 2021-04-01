@@ -1,10 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import AddForm from './components/AddForm';
-import UserList from './components/UserList';
-import './App.css';
+import AllUsers from './components/AllUsers';
 import Navbar from './components/Navbar';
-import { UserState } from './API';
+import './App.css';
 
 import {
   BrowserRouter as Router,
@@ -20,7 +18,6 @@ export default function App() {
         <Navbar />
 
         <Switch>
-
           <Route exact path="/">
             <AddForm />
           </Route>
@@ -30,10 +27,10 @@ export default function App() {
           </Route>
           
           <Route path="/users/view">
-            <UserList />
+            <AllUsers />
           </Route>
-
         </Switch>
+        
       </div>
     </Router>
   );
