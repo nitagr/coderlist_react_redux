@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const SERVER_URL = process.env.SERVER_URL || 'http://localhost:5000';
+export const SERVER_URL = process.env.SERVER_URL || 'http://localhost:5000';
 
 export const getData = async (url: any): Promise<any> => {
   try {
