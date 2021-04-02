@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-
+import swal from 'sweetalert';
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -14,7 +14,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import {
   SERVER_URL,
   getData,
+  postData,
+  deleteData
 } from "../services/FetchNodeServices";
+import { UserData } from '../API';
 
 // styling table using material styles
 const useStyles = makeStyles((theme) => ({
@@ -38,11 +41,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 const AllUsers: FunctionComponent<any> = () => {
 
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [getRowData, setRowData] = useState<UserData >();
 
   // fetching user details from database
   const fetchUsers = async () => {
@@ -52,15 +57,34 @@ const AllUsers: FunctionComponent<any> = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [users]);
 
   // setting parameter to open and close dialog for edit and delete
   const handleDialogOpen = (data: any) => {
     setDialogOpen(true);
+    setRowData(data);
   }
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+  }
+
+  // handler function to delete user 
+  const handleDeleteUser = async () => {
+    const response = await deleteData(`record/${getRowData._id}`);
+    if (response) {
+      swal({
+        title: "User Deleted Successfully",
+        icon: "success",
+        dangerMode: true,
+      });
+    } else {
+      swal({
+        title: "Fail to Delete Record",
+        icon: "warning",
+        dangerMode: true,
+      });
+    }
   }
 
   const showDialog = () => {
@@ -87,7 +111,7 @@ const AllUsers: FunctionComponent<any> = () => {
               <Button autoFocus color="inherit" >
                 Edit
               </Button>
-              <Button autoFocus color="inherit" >
+              <Button autoFocus color="inherit" onClick = {handleDeleteUser} >
                 Delete
               </Button>
             </Toolbar>

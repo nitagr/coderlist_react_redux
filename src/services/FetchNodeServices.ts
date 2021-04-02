@@ -39,3 +39,16 @@ export const postData = async (URL: string, body: SaveUserBody) => {
       return null;
   }
 };
+
+export const deleteData = async (URL: string) => {
+  try {
+      const response = await fetch(`${SERVER_URL}/${URL}`, {
+          method: "DELETE",
+          mode: "cors",
+      });
+      const result = await response.json();
+      return result;
+  } catch (e) {
+      return null;
+  }
+};

@@ -18,6 +18,15 @@ export interface SaveUserBody {
     profile: string,
 }
 
+export interface UserData {
+    _id: string,
+    name: string,
+    gender: string,
+    email: string,
+    mobile: string,
+    technologies: string,
+    profile: string,
+}
 
 export type UserState = {
     users: User[]
