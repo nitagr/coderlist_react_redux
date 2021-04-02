@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, ChangeEvent } from "react";
+import React, { FunctionComponent, useEffect, useState, ChangeEvent, forwardRef } from "react";
 
 import MaterialTable from "material-table";
 import Edit from '@material-ui/icons/Edit';
@@ -24,6 +24,17 @@ import Avatar from "@material-ui/core/Avatar";
 import { UserData, SaveUserBody } from '../API';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Search from '@material-ui/icons/Search';
+import Clear from '@material-ui/icons/Clear';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight'
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
+
+
 import {
   SERVER_URL,
   getData,
@@ -34,6 +45,19 @@ import {
 
 import getTechSkills from '../helpers/getTechSkills';
 import validationCheck from '../validations/formValidation';
+
+// material table
+const tableIcons = {
+  Search: forwardRef((props: any, ref: any) => <Search {...props} ref={ref} />),
+  Clear: forwardRef((props: any, ref: any) => <Clear {...props} ref={ref} />),
+  FirstPage: forwardRef((props: any, ref: any) => <FirstPage {...props} ref={ref} />),
+  LastPage: forwardRef((props: any, ref: any) => <LastPage {...props} ref={ref} />),
+  NextPage: forwardRef((props: any, ref: any) => <ChevronRight {...props} ref={ref} />),
+  PreviousPage: forwardRef((props: any, ref: any) => <ChevronLeft {...props} ref={ref} />),
+  Check: forwardRef((props: any, ref: any) => <Check {...props} ref={ref} />),
+  SortArrow: forwardRef((props: any, ref: any) => <ArrowDownward {...props} ref={ref} />),
+  ResetSearch: forwardRef((props: any, ref: any) => <Clear {...props} ref={ref} />),
+}
 
 // styling table using material styles
 const useStyles = makeStyles((theme) => ({
@@ -153,6 +177,7 @@ const AllUsers: FunctionComponent<any> = () => {
       });
     }
     setAlertDialogOpen(false);
+    setDialogOpen(false);
   }
 
   // handler for opening alert dialog for deletion
@@ -190,6 +215,13 @@ const AllUsers: FunctionComponent<any> = () => {
         });
       }
     }
+    setCheck1(false);
+    setCheck2(false);
+    setCheck3(false);
+    setCheck4(false);
+    setCheck5(false);
+    setCheck6(false);
+    setDialogOpen(false);
   }
 
   const handleProfileChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -453,6 +485,7 @@ const AllUsers: FunctionComponent<any> = () => {
     <div className={classes.root}>
       <div className={classes.subdiv}>
         <MaterialTable
+          icons={tableIcons}
           title="List of Users"
           columns={[
             {
