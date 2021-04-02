@@ -22,6 +22,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Avatar from "@material-ui/core/Avatar";
 import { UserData, SaveUserBody } from '../API';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import {
   SERVER_URL,
   getData,
@@ -80,6 +82,7 @@ const AllUsers: FunctionComponent<any> = () => {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [alertDialogOpen, setAlertDialogOpen] = useState<boolean>(false);
   const [getRowData, setRowData] = useState<UserData>();
 
   // user information states
@@ -129,6 +132,9 @@ const AllUsers: FunctionComponent<any> = () => {
     setDialogOpen(false);
     setSaveProfileBtn(false);
   }
+  const handleAlertDialog= () => {
+    setAlertDialogOpen(false);
+  }
 
   // handler function to delete user 
   const handleDeleteUser = async () => {
@@ -146,6 +152,12 @@ const AllUsers: FunctionComponent<any> = () => {
         dangerMode: true,
       });
     }
+    setAlertDialogOpen(false);
+  }
+
+  // handler for opening alert dialog for deletion
+  const handleDeleteConfirm = () => {
+    setAlertDialogOpen(true);
   }
 
   // data for edit User 
@@ -212,6 +224,30 @@ const AllUsers: FunctionComponent<any> = () => {
         });
       }
   }
+
+  const alertDialog = () => {
+    return (
+      <div>
+        <Dialog
+          open={alertDialogOpen}
+          onClose={handleAlertDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Are you sure want to delete user?"}</DialogTitle>
+          <DialogActions>
+            <Button onClick={handleAlertDialog} color="primary">
+              No
+            </Button>
+            <Button onClick={handleDeleteUser} color="primary" autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  
+  }
   const showDialog = () => {
     return (
       <div>
@@ -237,6 +273,7 @@ const AllUsers: FunctionComponent<any> = () => {
             </Toolbar>
 
           </AppBar>
+          {alertDialog()}
 
           <div className={classes.root}>
             <div className={classes.formSubdiv}>
@@ -401,7 +438,7 @@ const AllUsers: FunctionComponent<any> = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={6}> 
-                  <Button variant="contained" fullWidth color="primary" onClick={handleDeleteUser}>Delete</Button>
+                  <Button variant="contained" fullWidth color="primary" onClick={handleDeleteConfirm}>Delete</Button>
                 </Grid>
 
               </Grid>
