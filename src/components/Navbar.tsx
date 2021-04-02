@@ -9,7 +9,6 @@ const Navbar = (state: UserState) => (
     <section>
       <Link to="/users/create">CREATE</Link>
       <Link to="/users/view">VIEW</Link>
-      <h1>Registered Users: {state.users.length}</h1>
     </section>
   </nav>
 

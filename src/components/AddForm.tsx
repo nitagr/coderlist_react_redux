@@ -264,7 +264,7 @@ const AddForm = () => {
                         <h4>Profile Upload:</h4>
                     </Grid>
 
-                    <Grid item xs={12} sm={2}>
+                    <Grid item xs={12} sm={4}>
                         <div
                             style={{
                                 display: "flex",
@@ -292,11 +292,12 @@ const AddForm = () => {
                                 </IconButton>
                             </label>                                                   
                             {saveProfileBtn?<Button color="primary" style={{padding:5}} onClick={()=>handleProfileUpload()}>Save</Button>:<></>}
+                            {profileName}
                         </div>
                         
                     </Grid>
 
-                    <Grid item xs={12} sm={6}> </Grid>
+                    <Grid item xs={12} sm={4}> </Grid>
 
                     <Grid item xs={12} sm={6} >
                         <div>
