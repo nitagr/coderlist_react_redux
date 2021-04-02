@@ -3,6 +3,14 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import Edit from '@material-ui/icons/Edit';
 import { makeStyles } from "@material-ui/core/styles";
+import Dialog from "@material-ui/core/Dialog";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
 import {
   SERVER_URL,
   getData,
@@ -20,13 +28,21 @@ const useStyles = makeStyles((theme) => ({
   subdiv: {
     width: 1200,
     padding: 10,
-  }
+  },
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
 }));
 
 const AllUsers: FunctionComponent<any> = () => {
 
   const classes = useStyles();
   const [users, setUsers] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   // fetching user details from database
   const fetchUsers = async () => {
@@ -37,6 +53,49 @@ const AllUsers: FunctionComponent<any> = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  // setting parameter to open and close dialog for edit and delete
+  const handleDialogOpen = (data: any) => {
+    setDialogOpen(true);
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  }
+
+  const showDialog = () => {
+    return (
+      <div>
+        <Dialog
+          fullScreen
+          open={dialogOpen}
+          onClose={handleDialogClose}
+        >
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleDialogClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                User Details
+              </Typography>
+              <Button autoFocus color="inherit" >
+                Edit
+              </Button>
+              <Button autoFocus color="inherit" >
+                Delete
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </Dialog>
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -122,11 +181,12 @@ const AllUsers: FunctionComponent<any> = () => {
             {
               icon: Edit,
               tooltip: "Edit User Details",
-              onClick: (event, rowData) => null,
+              onClick: (event, rowData) => handleDialogOpen(rowData),
             },
           ]}
         />
       </div>
+      {showDialog()}
     </div>
   );
 }
