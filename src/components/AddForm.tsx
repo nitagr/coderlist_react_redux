@@ -15,15 +15,10 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import swal from 'sweetalert';
+import { postDataAndImage } from '../services/FetchNodeServices';
 
 import validationCheck from '../validations/formValidation';
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
 
 // styles
 const useStyles = makeStyles((theme) => ({
@@ -61,12 +56,47 @@ const AddForm = () => {
     const classes = useStyles();
 
     // user information states
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [mobile, setMobile] = useState(' ');
-    const [gender, setGender] = useState('female');
-    const [countryCode, setCountryCode] = useState(' ');
-    const [profileImage, setProfileImage] = useState('');
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [mobile, setMobile] = useState<string>(' ');
+    const [gender, setGender] = useState<string>('female');
+    const [countryCode, setCountryCode] = useState<string>(' ');
+    const [profileImage, setProfileImage] = useState<File>();
+    const [profileName, setProfileName] = useState<string>('./no-image.png');
+    const [saveProfileBtn, setSaveProfileBtn] = useState<boolean>(false);
+    
+    const handleProfileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files[0];
+        setProfileName(file.name);    
+        setProfileImage(file);
+        setSaveProfileBtn(true);      
+    }
+
+    const handleProfileUpload = async () => {
+        const formData = new FormData();
+    
+        formData.append(
+            'image',
+            profileImage,
+        );
+        const config = { headers: { "content-type": "multipart/form-data" } };
+        const response = await postDataAndImage('record/profile-upload', formData, config);
+        setSaveProfileBtn(false);
+
+        if (response) {
+            swal({
+              title: "Profile Image Uploaded Successfully",
+              icon: "success",
+              dangerMode: true,
+            });
+          } else {
+            swal({
+              title: "Failed to Upload Profile Image?",
+              icon: "warning",
+              dangerMode: true,
+            });
+          }
+    }
 
     // state for preview-modal
     const [preview, setPreview] = useState(false);
@@ -83,7 +113,7 @@ const AddForm = () => {
     const openModalHandler = () => {
         
         // form fields validation
-        let validationResult = validationCheck( name, email, countryCode, mobile, profileImage );
+        let validationResult = validationCheck( name, email, countryCode, mobile, profileName);
 
         if (validationResult) {
             setPreview(!preview);
@@ -112,26 +142,10 @@ const AddForm = () => {
         setCheck4(false);
         setCheck5(false);
         setCheck6(false);
-        setProfileImage('');
+        setProfileName('');    
+        setSaveProfileBtn(false);
     }
 
-    // profile image upload handler
-    const uploadedImage = React.useRef(null);
-    const imageUploader = React.useRef(null);
-
-    const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
-        setProfileImage(file.name);
-        if (file) {
-            const reader = new FileReader();
-            const { current } = uploadedImage;
-            current.file = file;
-            reader.onload = e => {
-                current.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    };
     return (
         <div className={classes.root}>
             <div className={classes.subdiv}>
@@ -250,7 +264,7 @@ const AddForm = () => {
                         <h4>Profile Upload:</h4>
                     </Grid>
 
-                    <Grid item xs={12} sm={1}>
+                    <Grid item xs={12} sm={2}>
                         <div
                             style={{
                                 display: "flex",
@@ -262,39 +276,27 @@ const AddForm = () => {
                             <input
                                 accept="image/*"
                                 className={classes.input}
-                                id="icon-button-file"
+                                id="icon-button-profile"
                                 type="file"
-                                ref={imageUploader}
-                                onChange={handleImageUpload}
+                                multiple
+                                onChange={handleProfileChange}
                             />
 
-                            <label htmlFor="icon-button-file">
+                            <label htmlFor="icon-button-profile">
                                 <IconButton
                                     color="primary"
                                     aria-label="upload picture"
                                     component="span"
                                 >
-                                    <PhotoCamera />
+                                <PhotoCamera />
                                 </IconButton>
-                            </label>
+                            </label>                                                   
+                            {saveProfileBtn?<Button color="primary" style={{padding:5}} onClick={()=>handleProfileUpload()}>Save</Button>:<></>}
                         </div>
+                        
                     </Grid>
 
-                    <Grid item xs={12} sm={7}>
-                        <p> {profileImage} </p> 
-                    </Grid>
-
-                    <img
-                        ref={uploadedImage}
-                        hidden
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            position: "absolute",
-                        }}
-                        alt=''
-                        id='profileImg'
-                    />
+                    <Grid item xs={12} sm={6}> </Grid>
 
                     <Grid item xs={12} sm={6} >
                         <div>
@@ -308,7 +310,7 @@ const AddForm = () => {
                                 countryCode={countryCode}
                                 mobile={mobile}
                                 gender={gender}
-                                profile={profileImage}
+                                profile={profileName}
                                 close={closeModalHandler}
                                 check1={check1}
                                 check2={check2}
