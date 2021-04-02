@@ -1,19 +1,20 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React from 'react';
 import '../modal.css';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { addUser } from '../actions/actionCreator';
-import { User, UserState } from '../API';
-import { connect, useDispatch } from 'react-redux';
+import { User } from '../API';
+import { useDispatch } from 'react-redux';
+import { postData } from '../services/FetchNodeServices';
 
 import getTechSkills from '../helpers/getTechSkills';
-import handleProfileStorage from '../helpers/imageUploadHandler';
 import swal from 'sweetalert';
+import { SaveUserBody } from '../API';
 
 const Modal = (props: any) => {
 
     // technology stack string for display selected using checkbox
-    const skillsSelected = [ 
+    const skillsSelected = [
         props.check1,
         props.check2,
         props.check3,
@@ -23,7 +24,7 @@ const Modal = (props: any) => {
     ];
 
     let techSkills = getTechSkills(skillsSelected);
-    
+
     const newUser: User = {
         id: Math.random(),
         name: props.name,
@@ -38,21 +39,47 @@ const Modal = (props: any) => {
     // for submitting user Info and scrolling to modal view
     const dispatch = useDispatch();
     
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         dispatch(addUser(newUser));
-        handleProfileStorage(props.profile);
 
-        window.scroll({
-            top: 0, 
-            left: 0, 
-            behavior: 'smooth' 
-        });
+        // sending data with post request to the server 
+        const data: SaveUserBody = {
+            name: props.name,
+            gender: props.gender,
+            email: props.email,
+            mobile: props.countryCode + props.mobile,
+            technologies: techSkills,
+            profile: props.profile,
+        }
 
-        swal({
-            title: "New User Added Successfully",
-            icon: "success",
-            dangerMode: true,
-        })
+        // Node Service to call backend API
+        const response = await postData(
+            "record",
+            data
+        );
+
+        if(response) {
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+    
+            swal({
+                title: "New User Added Successfully",
+                icon: "success",
+                dangerMode: true,
+            });
+            
+        } else {
+            swal({
+                title: "Add New User?",
+                text: "Fail to Add New User",
+                icon: "warning",
+                dangerMode: true,
+            });
+        }
+         
     }
 
     return (

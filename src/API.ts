@@ -9,6 +9,16 @@ export interface User {
     tech: string,
 }
 
+export interface SaveUserBody {
+    name: string,
+    gender: string,
+    email:string,
+    mobile: string,
+    technologies: string,
+    profile: string,
+}
+
+
 export type UserState = {
     users: User[]
 }
